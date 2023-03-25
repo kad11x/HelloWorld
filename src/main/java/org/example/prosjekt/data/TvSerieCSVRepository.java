@@ -135,4 +135,6 @@ public class TvSerieCSVRepository implements TvSerieRepository {
     public ArrayList<Episode> getEpisoderISesong(String tittel, int sesong) {
         return hentTvSerie(tittel).hentEpisoderISesong(sesong);
     }
+
+    //legge til 3 metoder til  sånna t jeg skan skrive fil til siden
 }
