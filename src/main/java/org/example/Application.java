@@ -5,8 +5,8 @@ import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.vue.VueComponent;
 import org.example.prosjekt.controller.EpisodeController;
-import org.example.prosjekt.data.TvSerieCSVRepository;
 import org.example.prosjekt.controller.TvSerieController;
+import org.example.prosjekt.data.TvSerieJSONRepository;
 
 import java.io.IOException;
 
@@ -23,7 +23,7 @@ public class Application {
         Javalin app = Javalin.create(config -> {
             config.staticFiles.enableWebjars();
             config.vue.vueAppName = "app";
-        }).start(1239);
+        }).start(3456);
 
 
         //app.get("/", new VueComponent("hello-world"));
@@ -39,13 +39,14 @@ public class Application {
         TvSerieController tvserieController = new TvSerieController(tvserieRepository);
         EpisodeController episodeController = new EpisodeController(tvserieRepository);*/
 
+        //tvseriedata:
+        //TvSerieDataRepository tvserieRepository = new TvSerieDataRepository();
 
+        //tvserieJSON:
+        TvSerieJSONRepository tvserieRepository = new TvSerieJSONRepository("tvshows_10.json");
 
-
-
-        //TvSerieJSONRepository tvserieRepository = new TvSerieJSONRepository("tvshows_10.json");
-
-        TvSerieCSVRepository tvserieRepository = new TvSerieCSVRepository("tvshows_10.csv",";");
+        //tvserieCSV:
+        //TvSerieCSVRepository tvserieRepository = new TvSerieCSVRepository("tvshows_10.csv",";");
 
         TvSerieController tvserieController = new TvSerieController(tvserieRepository);
         EpisodeController episodeController = new EpisodeController(tvserieRepository);

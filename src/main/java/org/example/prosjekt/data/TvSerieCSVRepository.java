@@ -4,9 +4,7 @@ import org.example.prosjekt.model.Episode;
 import org.example.prosjekt.model.Person;
 import org.example.prosjekt.model.TvSerie;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -137,4 +135,44 @@ public class TvSerieCSVRepository implements TvSerieRepository {
     }
 
     //legge til 3 metoder til  sånna t jeg skan skrive fil til siden
+
+    // oppgave 2.2 c
+
+    public void writeToCSV (ArrayList<TvSerie> liste, String filepath) {
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
+
+            for (TvSerie serie : liste){
+                for (Episode e: serie.getEpisoder()) {
+                    //writing the tvserie
+                    writer.write(serie.getTittel()+";"+ serie.getBeskrivelse()+";"+serie.getUtgivelsesdato()+ ";"+ serie.getBildeUrl());
+                    //then writing the episode
+                    writer.write(e.getTittel()+";"+e.getBeskrivelse()+";"+ e.getEpisodeNummer()+ ";"+ e.getSesongNummer()+ ";"+ e.getSpilletid()+ ";"+ e.getutgivelsesdato()+ ";"+ e.getBildeUrl()+ ";"+ e.getRegissor().getfulltNavn());
+                    //new line
+                    writer.newLine();
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    //oppgave 2.3 - a create, update, delete methods
+
+
+    //@Override
+    public void createEpisode(String tvserie, String title, int sesonNr, int episodeNr, String beskrivelse, double spilletid, LocalDate utgivelsesdato, String bildeurl) {
+
+    }
+
+    //@Override
+    public void updateEpisode(String tvserie, int sesongNr, int episodeNr, String title, int sesongNummer, int episodeNummer, String beskrivelse, double spilletid, LocalDate utgivelsesdato, String bildeurl) {
+
+    }
+
+    //@Override
+    public void deleteEpisode(String tvserie, int sesongNr, int episodeNr) {
+
+    }
 }

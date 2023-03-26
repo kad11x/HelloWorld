@@ -1,6 +1,5 @@
 package org.example.prosjekt.data;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.example.prosjekt.model.Episode;
@@ -10,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class TvSerieJSONRepository implements TvSerieRepository {
 
@@ -19,30 +17,42 @@ public class TvSerieJSONRepository implements TvSerieRepository {
 
 
     //Lager en konstruktør som tar i mot en fil og leser det til arraylist.
-    public TvSerieJSONRepository(String file) throws IOException {
+    public TvSerieJSONRepository(String file) {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
-        jsonListeTvserie = mapper.readValue(new File(file), new TypeReference<ArrayList<TvSerie>>() {});
+        File fil = new File(file);
+        try {
+            TvSerie[] seriesFromJSON = mapper.readValue(fil, TvSerie[].class);
+
+
+        jsonListeTvserie = new ArrayList<>(Arrays.asList(seriesFromJSON));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        //jsonListeTvserie = mapper.readValue(new File(file), new TypeReference<ArrayList<TvSerie>>() {});
     }
 
     //skulle også lage en egen fil metode som leser informasjonen fra JSON fila.
-    public static List<TvSerie> readFromJson(String filepath) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public ArrayList<TvSerie> readFromJson(String filepath) {
+        ObjectMapper mapper = new ObjectMapper();
 
+        //filePath
+        File fil = new File(filepath);
+
+        //module to be able to read LocalDate object correctly. This is needed in order to be able get LocalDate
+        mapper.registerModule(new JavaTimeModule());
+
+        //read tvseries from json filej
         try {
-            //vruker denne om jeg skal ha med local time:
-            objectMapper.registerModule(new JavaTimeModule());
+            TvSerie[] seriesFromJson = mapper.readValue(fil,TvSerie[].class);
 
-            TvSerie[] tvseriesArray = objectMapper.readValue(new File(filepath), TvSerie[].class);
-
-            return Arrays.asList(tvseriesArray);
+            //  ArrayList<TVSerie> serieArrayList = new ArrayList<>(Arrays.asList(seriesFromJson));
+            return new ArrayList<>(Arrays.asList(seriesFromJson));
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        //sjekke hva som er henrikten:
-        return new ArrayList<>();
 
     }
     //Når du har implementert metodene i TvSerieJSONRepository, kan du bruke dette repositoriet i stedet for TvSerieDataRepository i
@@ -89,12 +99,17 @@ public class TvSerieJSONRepository implements TvSerieRepository {
 
     @Override
     public ArrayList<Episode> getEpisoderISesong(String tittel, int sesong) {
-        return hentTvSerie(tittel).hentEpisoderISesong(sesong);
+        TvSerie b = hentTvSerie(tittel);
+
+        ArrayList<Episode> e = b.hentEpisoderISesong(sesong);
+
+        return e;
+        //return hentTvSerie(tittel).hentEpisoderISesong(sesong);
     }
 
 
     //skriver til json format:
-    public static void writeToJson (ArrayList<TvSerie> tvserie, String filepath) {
+    public void writeToJson (ArrayList<TvSerie> tvserie, String filepath) {
     ObjectMapper objectMapper = new ObjectMapper();
     File file = new File(filepath);
         try {
