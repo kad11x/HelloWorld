@@ -6,7 +6,7 @@ import io.javalin.http.Handler;
 import io.javalin.vue.VueComponent;
 import org.example.prosjekt.controller.EpisodeController;
 import org.example.prosjekt.controller.TvSerieController;
-import org.example.prosjekt.data.TvSerieJSONRepository;
+import org.example.prosjekt.data.TvSerieCSVRepository;
 
 import java.io.IOException;
 
@@ -43,10 +43,12 @@ public class Application {
         //TvSerieDataRepository tvserieRepository = new TvSerieDataRepository();
 
         //tvserieJSON:
-        TvSerieJSONRepository tvserieRepository = new TvSerieJSONRepository("tvshows_10.json");
+        //TvSerieJSONRepository tvserieRepository = new TvSerieJSONRepository("tvshows_10_with_roles.json");
 
         //tvserieCSV:
         //TvSerieCSVRepository tvserieRepository = new TvSerieCSVRepository("tvshows_10.csv",";");
+        //test filen:
+        TvSerieCSVRepository tvserieRepository = new TvSerieCSVRepository("test.csv",";");
 
         TvSerieController tvserieController = new TvSerieController(tvserieRepository);
         EpisodeController episodeController = new EpisodeController(tvserieRepository);

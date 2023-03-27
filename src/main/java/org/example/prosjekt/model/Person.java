@@ -1,46 +1,52 @@
 package org.example.prosjekt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.time.LocalDate;
+
 public class Person {
-    private String fulltNavn;
+
+    private String fornavn;
+    private String etternavn;
+    private LocalDate fodselsdato;
 
 
-    private int alder;
-
-
-    public String getfulltNavn() {
-        return fulltNavn;
+    public Person(String fornavn, String etternavn, LocalDate fodselsdato) {
+        this.fornavn = fornavn;
+        this.etternavn = etternavn;
+        this.fodselsdato = fodselsdato;
     }
 
-    public void setfulltNavn(String fulltnavn) {
-        this.fulltNavn = fulltnavn;
+    public String getFornavn() {
+        return fornavn;
     }
 
-
-
-
-
-    public int getAlder() {
-        return alder;
+    public void setFornavn(String fornavn) {
+        this.fornavn = fornavn;
     }
 
-    public void setAlder(int alder) {
-        this.alder = alder;
+    public String getEtternavn() {
+        return etternavn;
     }
 
-    public Person(String navn) {
-        this.fulltNavn = navn;
-    }
-    public Person(String navn, int alder) {
-        this.fulltNavn = navn;
-
-        this.alder = alder;
+    public void setEtternavn(String etternavn) {
+        this.etternavn = etternavn;
     }
 
-    public Person() {
+    public LocalDate getFodselsdato() {
+        return fodselsdato;
+    }
+
+    public void setFodselsdato(LocalDate fodselsdato) {
+        this.fodselsdato = fodselsdato;
+    }
+    @JsonIgnore
+    public String getFullNavn (){
+        return this.fornavn +" "+ this.etternavn;
     }
 
     @Override
-    public String toString() {
-        return fulltNavn;
+    public String toString(){
+        return "Person fullnavn: "+this.getFullNavn();
     }
 }

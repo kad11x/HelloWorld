@@ -45,6 +45,7 @@ public class TvSerieCSVRepository implements TvSerieRepository {
                 //skue spiller
                 String skueSpillerFornavn = values[11];
                 String skuespillerEtternavn = values[12];
+                String skuespiller_birthday = values[13];
 
 
 
@@ -66,7 +67,7 @@ public class TvSerieCSVRepository implements TvSerieRepository {
                 }
                 //Add episode to serie
 
-                Person regissor = new Person(skueSpillerFornavn+ skuespillerEtternavn);
+                Person regissor = new Person(skueSpillerFornavn,skuespillerEtternavn,LocalDate.parse(skuespiller_birthday));
                 Episode episode = new Episode(epTitle,Integer.parseInt(episodeNr),Integer.parseInt(sesongNr),Integer.parseInt(spilleTid),LocalDate.parse(episodeDato),episodeBeskrivelse,regissor,episodeBildeurl);
                 episode.setRegissor(regissor);
                 serie.addEpisode(episode);
@@ -84,7 +85,7 @@ public class TvSerieCSVRepository implements TvSerieRepository {
 
 
             //oppgave 2.2-C not working well
-            //writeToCSV(serieCSV,"mycsv.csv",splitter);
+            writeToCSV(tvserieListe,"test.csv");
 
         }
         catch (IOException e){
@@ -147,7 +148,7 @@ public class TvSerieCSVRepository implements TvSerieRepository {
                     //writing the tvserie
                     writer.write(serie.getTittel()+";"+ serie.getBeskrivelse()+";"+serie.getUtgivelsesdato()+ ";"+ serie.getBildeUrl());
                     //then writing the episode
-                    writer.write(e.getTittel()+";"+e.getBeskrivelse()+";"+ e.getEpisodeNummer()+ ";"+ e.getSesongNummer()+ ";"+ e.getSpilletid()+ ";"+ e.getutgivelsesdato()+ ";"+ e.getBildeUrl()+ ";"+ e.getRegissor().getfulltNavn());
+                    writer.write(e.getTittel()+";"+e.getBeskrivelse()+";"+ e.getEpisodeNummer()+ ";"+ e.getSesongNummer()+ ";"+ e.getSpilletid()+ ";"+ e.getutgivelsesdato()+ ";"+ e.getBildeUrl()+ ";"+ e.getRegissor().getFornavn()+";"+ e.getRegissor().getEtternavn()+";"+e.getRegissor().getFodselsdato());
                     //new line
                     writer.newLine();
                 }

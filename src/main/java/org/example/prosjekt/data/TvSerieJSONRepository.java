@@ -99,12 +99,8 @@ public class TvSerieJSONRepository implements TvSerieRepository {
 
     @Override
     public ArrayList<Episode> getEpisoderISesong(String tittel, int sesong) {
-        TvSerie b = hentTvSerie(tittel);
 
-        ArrayList<Episode> e = b.hentEpisoderISesong(sesong);
-
-        return e;
-        //return hentTvSerie(tittel).hentEpisoderISesong(sesong);
+        return hentTvSerie(tittel).hentEpisoderISesong(sesong);
     }
 
 
