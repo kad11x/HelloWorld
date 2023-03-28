@@ -64,6 +64,21 @@ public class TvSerieDataRepository implements TvSerieRepository{
 
     }
 
+    @Override
+    public void createEpisode(String tvserie, String title, int sesonNr, int episodeNr, String beskrivelse, double spilletid, LocalDate utgivelsesdato, String bildeurl) {
+
+    }
+
+    @Override
+    public void updateEpisode(String tvserie, int sesongNr, int episodeNr, String title, int sesongNummer, int episodeNummer, String beskrivelse, double spilletid, LocalDate utgivelsesdato, String bildeurl) {
+
+    }
+
+    @Override
+    public void deleteEpisode(String tvserie, int sesongNr, int episodeNr) {
+
+    }
+
     public Episode getEnEpisodeISesong(String tittel, int sesong, int episode) {
         //opretter en array list for å kunne holde på verdiene, som henter fra methoden over
         ArrayList<Episode> episode1 = getEpisoderISesong(tittel,sesong);

@@ -34,6 +34,10 @@ public class Application {
 
         app.get("/tvserie/{tvserie-id}/sesong/{sesong-nr}/episode/{episode-nr}", new VueComponent("episode-detail"));
 
+        app.get("/tvserie/{tvserie-id}/sesong/{sesong-nr}/episode/{episode-nr}/updateepisode",new VueComponent("episode-update"));
+
+        app.get("/tvserie/{tvserie-id}/createepisode", new VueComponent("episode-create"));
+
 
         /*TvSerieDataRepository tvserieRepository = new TvSerieDataRepository();
         TvSerieController tvserieController = new TvSerieController(tvserieRepository);
@@ -46,9 +50,9 @@ public class Application {
         //TvSerieJSONRepository tvserieRepository = new TvSerieJSONRepository("tvshows_10_with_roles.json");
 
         //tvserieCSV:
-        //TvSerieCSVRepository tvserieRepository = new TvSerieCSVRepository("tvshows_10.csv",";");
+        TvSerieCSVRepository tvserieRepository = new TvSerieCSVRepository("tvshows_10.csv",";");
         //test filen:
-        TvSerieCSVRepository tvserieRepository = new TvSerieCSVRepository("test.csv",";");
+        //TvSerieCSVRepository tvserieRepository = new TvSerieCSVRepository("test.csv",";");
 
         TvSerieController tvserieController = new TvSerieController(tvserieRepository);
         EpisodeController episodeController = new EpisodeController(tvserieRepository);
@@ -86,9 +90,36 @@ public class Application {
         });
 
 
-        //TvSerieCSVRepository hei = new TvSerieCSVRepository("tvshows_10.cvs");
-        //System.out.println(hei);
+        // oblig 5
 
+
+        app.get("/api/tvserie/{tvserie-id}/sesong/{sesong-nr}/episode/{episode-nr}/deleteepisode", new Handler() {
+            @Override
+            public void handle( Context context) throws Exception {
+
+                episodeController.deleteEpisodeController(context);
+
+
+            }
+        });
+
+
+
+        app.post("/api/tvserie/{tvserie-id}/createepisode", new Handler() {
+            @Override
+            public void handle( Context context) throws Exception {
+                episodeController.createEpisodeController(context);
+            }
+        });
+
+
+        app.post("/api/tvserie/{tvserie-id}/sesong/{sesong-nr}/episode/{episode-nr}/updateepisode", new Handler() {
+            @Override
+            public void handle( Context context) throws Exception {
+                episodeController.updateEpisodeController(context);
+                System.out.println(Thread.currentThread().getName());
+            }
+        });
 
 
 

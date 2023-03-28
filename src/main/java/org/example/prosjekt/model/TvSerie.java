@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 
-
 public class TvSerie implements Comparable<TvSerie>{
     private String tittel;
     private String beskrivelse;
@@ -138,5 +137,44 @@ public class TvSerie implements Comparable<TvSerie>{
         }
 
         return 0;
+    }
+
+    public void deleteEpisode(int sesongNummer, int episodeNummer) {
+        //går igjennom episoder
+        for (int i = 0; i < episoder.size(); i++) {
+            //legger episodene til
+            Episode episode = episoder.get(i);
+
+            //sjekker om epsidode er lik sesongnummer og episode er lik epsode som blir gitt
+            if (episode.getSesongNummer() == sesongNummer && episode.getEpisodeNummer() == episodeNummer) {
+                episoder.remove(i);
+                break; // exit loop after removing the episode
+            }
+        }
+    }
+
+    public void createEpisode(String title, int sesonNr, int episodeNr, String beskrivelse, double spilletid, LocalDate utgivelsesdato, String episodeBilde){
+
+        //lager en ny episode
+        Episode nyE = new Episode(tittel,episodeNr,sesonNr,spilletid,utgivelsesdato,beskrivelse,bildeUrl);
+
+        episoder.add(nyE);
+
+    }
+
+
+    public void updateEpisode(String title, int sesongNummer, int episodeNummer, String beskrivelse, double spilletid, LocalDate utgivelsesdato, String bildeurl){
+        //lager ny epsiode
+        Episode episode = new Episode(title,episodeNummer,sesongNummer,spilletid,utgivelsesdato,beskrivelse,bildeurl);
+
+
+        //går igjennom lista med epsioder, tar ut den spesifike epsioden. Der sesongnummer OG epsiodenummer er lik input. så forandrer den verdien
+        for(int i=0; i<episoder.size(); i++){
+            Episode e = episoder.get(i);
+            if(episode.getSesongNummer() == sesongNummer && episode.getEpisodeNummer() == episodeNummer){
+                episoder.set(i, episode);
+                break;
+            }
+        }
     }
 }

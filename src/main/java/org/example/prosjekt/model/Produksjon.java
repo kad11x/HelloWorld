@@ -1,12 +1,14 @@
 package org.example.prosjekt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public abstract class Produksjon {
 
     private String tittel;
-    private int spilletid;
+    private double spilletid;
     private LocalDate utgivelsesdato;
     private String beskrivelse;
     private Person regissor;
@@ -36,7 +38,7 @@ public abstract class Produksjon {
     public void setutgivelsesdato(LocalDate utgivelsesdato) {
         this.utgivelsesdato = utgivelsesdato;
     }
-    public void setSpilletid(int spilletid) {
+    public void setSpilletid(double spilletid) {
         this.spilletid = spilletid;
     }
     public String getBeskrivelse() {
@@ -54,6 +56,7 @@ public abstract class Produksjon {
         this.regissor = regissor;
     }
 
+    @JsonIgnore
     public ArrayList<Roller> getRoller() {
         return roller;
     }
@@ -71,7 +74,7 @@ public abstract class Produksjon {
     public Produksjon() {
     }
 
-    public Produksjon(String tittel, int spilleTid, LocalDate utgittdato, String beskrivelse, Person regissor) {
+    public Produksjon(String tittel, double spilleTid, LocalDate utgittdato, String beskrivelse, Person regissor) {
         this.spilletid = spilleTid;
         this.tittel = tittel;
         this.utgivelsesdato = utgittdato;
@@ -79,7 +82,7 @@ public abstract class Produksjon {
         this.regissor = regissor;
 
     }
-    public Produksjon(String tittel, int spilleTid, LocalDate utgittdato, String beskrivelse) {
+    public Produksjon(String tittel, double spilleTid, LocalDate utgittdato, String beskrivelse) {
         this.spilletid = spilleTid;
         this.tittel = tittel;
         this.utgivelsesdato = utgittdato;
@@ -87,7 +90,7 @@ public abstract class Produksjon {
 
 
     }
-        public Produksjon(String tittel, int spilleTid) {
+        public Produksjon(String tittel, double spilleTid) {
         this.tittel = tittel;
         this.spilletid = spilleTid;
     }
@@ -96,12 +99,21 @@ public abstract class Produksjon {
         this.tittel = tittel;
     }
     //til bildeUrl for episode
-    public Produksjon(String tittel, int spilleTid, LocalDate utgittdato, String beskrivelse, Person regissor, String bildeUrl) {
+    public Produksjon(String tittel, double spilleTid, LocalDate utgittdato, String beskrivelse, Person regissor, String bildeUrl) {
         this.spilletid = spilleTid;
         this.tittel = tittel;
         this.utgivelsesdato = utgittdato;
         this.beskrivelse = beskrivelse;
         this.regissor = regissor;
+        this.bildeUrl = bildeUrl;
+
+    }
+
+    public Produksjon(String tittel, double spilleTid, LocalDate utgittdato, String beskrivelse, String bildeUrl) {
+        this.spilletid = spilleTid;
+        this.tittel = tittel;
+        this.utgivelsesdato = utgittdato;
+        this.beskrivelse = beskrivelse;
         this.bildeUrl = bildeUrl;
 
     }
