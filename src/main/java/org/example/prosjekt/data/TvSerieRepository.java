@@ -18,14 +18,14 @@ public interface TvSerieRepository {
 
     TvSerie hentTvSerie(String tittel);
 
-    public Episode getEnEpisodeISesong(String tittel, int sesong, int episode);
+    Episode getEnEpisodeISesong(String tittel, int sesong, int episode);
 
-    public ArrayList<Episode> getEpisoderISesong(String tittel, int sesong);
+    ArrayList<Episode> getEpisoderISesong(String tittel, int sesong);
 
 
-    public void createEpisode(String tvserie, String title, int sesonNr, int episodeNr, String beskrivelse, double spilletid, LocalDate utgivelsesdato, String bildeurl);
-    public void updateEpisode(String tvserie, int sesongNr, int episodeNr, String title, int sesongNummer, int episodeNummer, String beskrivelse, double spilletid, LocalDate utgivelsesdato, String bildeurl);
-    public void deleteEpisode(String tvserie, int sesongNr, int episodeNr);
+    void createEpisode(String tvserie, String title, int sesonNr, int episodeNr, String beskrivelse, double spilletid, LocalDate utgivelsesdato, String bildeurl);
+    void updateEpisode(String tvserie, int sesongNr, int episodeNr, String title, int sesongNummer, int episodeNummer, String beskrivelse, double spilletid, LocalDate utgivelsesdato, String bildeurl);
+    void deleteEpisode(String tvserie, int sesongNr, int episodeNr);
 
 
 

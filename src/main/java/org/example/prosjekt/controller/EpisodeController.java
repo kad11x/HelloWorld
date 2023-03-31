@@ -99,7 +99,7 @@ public class EpisodeController {
 
 
         context.redirect("/tvserie/" + tvserie + "/sesong/" + sesongNr);
-
+        //context.redirect("/tvserie/" + tvserie + "/sesong/" + sesongNr + "/episodeNummer/" + episodeNr);
 
     }
 

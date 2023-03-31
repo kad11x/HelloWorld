@@ -25,7 +25,6 @@ public class TvSerieCSVRepository implements TvSerieRepository {
             //while loop read each line in csv
             while((line = readCSV.readLine()) != null){
                 String[] values = line.split(splitter);
-                //   System.out.println(values[0] + " "+ values[1] + " "+values[2]+ " "+ values[3]+ " "+ values[4]+ " "+values[5]+ " "+values[6] + " "+values[7]+ " "+values[8]+ " "+values[9] + " "+values[10] + " "+values[11]+ " "+values[12] + " "+values[13]);
 
                 //her lager vi variabel av typen String som inneholder di forsjellige variablene som vi treger og leser fra csv filen som er like values og indesxen demmes.
                 //Tvserie
@@ -50,27 +49,22 @@ public class TvSerieCSVRepository implements TvSerieRepository {
 
 
 
-                //Here in first iteration of loop, the serieHash<title> is null. There is no value in it.
-                //"title" is the key. So it has corresponding value.
-                TvSerie serie = filmList.get(title);
+                //tom først
+                TvSerie serietittle = filmList.get(title);
 
-                //When there is no value in "title", new TVserie object is created, also title with value is put() in serieHash
-                //this means as long serieHash<title> is in not empty/null, no duplicate of current <title> will be created this.
-                //this way below the if-block, episodes can be added to their correct TVSerie object
-                //
-                if (serie == null) {
+
+                if (serietittle == null) {
                     //create tvserie from current iteration
-                    serie = new TvSerie(title,beskrivelse, LocalDate.parse(serieDato),serieBildeurl);
+                    serietittle = new TvSerie(title,beskrivelse, LocalDate.parse(serieDato),serieBildeurl);
                     //add serie object as value to hashmap
-                    filmList.put(title, serie);
+                    filmList.put(title, serietittle);
 
                 }
                 //Add episode to serie
 
                 Person regissor = new Person(skueSpillerFornavn,skuespillerEtternavn,LocalDate.parse(skuespiller_birthday));
                 Episode episode = new Episode(epTitle,Integer.parseInt(episodeNr),Integer.parseInt(sesongNr),Double.parseDouble(spilleTid),LocalDate.parse(episodeDato),episodeBeskrivelse,regissor,episodeBildeurl);
-                episode.setRegissor(regissor);
-                serie.addEpisode(episode);
+                serietittle.addEpisode(episode);
 
 
 
@@ -78,13 +72,13 @@ public class TvSerieCSVRepository implements TvSerieRepository {
 
 
 
-            } // while loop ends here
+            }
 
             tvserieListe = new ArrayList<>(filmList.values());
 
 
 
-            //oppgave 2.2-C not working well
+
             writeToCSV(tvserieListe,"test.csv");
 
         }
@@ -93,7 +87,7 @@ public class TvSerieCSVRepository implements TvSerieRepository {
         }
 
 
-    } //end of constructor
+    }
 
 
     @Override
@@ -139,19 +133,31 @@ public class TvSerieCSVRepository implements TvSerieRepository {
 
     public void writeToCSV (ArrayList<TvSerie> liste, String filepath) {
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-            for (TvSerie serie : liste){
-                for (Episode e: serie.getEpisoder()) {
-                    writer.write(serie.getTittel()+";"+ serie.getBeskrivelse()+";"+serie.getUtgivelsesdato()+ ";"+ serie.getBildeUrl()+";");
-                    writer.write(e.getTittel()+";"+e.getBeskrivelse()+";"+ e.getEpisodeNummer()+ ";"+ e.getSesongNummer()+ ";"+ e.getSpilletid()+ ";"+ e.getutgivelsesdato()+ ";"+ e.getBildeUrl()+ ";"+ e.getRegissor().getFornavn()+";"+ e.getRegissor().getEtternavn()+";"+e.getRegissor().getFodselsdato());
-                    writer.newLine();
+
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
+
+                    for (TvSerie serie : liste) {
+                        for (Episode e : serie.getEpisoder()) {
+                            writer.write(serie.getTittel() + ";" + serie.getBeskrivelse() + ";" + serie.getUtgivelsesdato() + ";" + serie.getBildeUrl() + ";");
+                            writer.write(e.getTittel() + ";" + e.getBeskrivelse() + ";" + e.getEpisodeNummer() + ";" + e.getSesongNummer() + ";" + e.getSpilletid() + ";" + e.getutgivelsesdato() + ";" + e.getBildeUrl() + ";" + e.getRegissor().getFornavn() + ";" + e.getRegissor().getEtternavn() + ";" + e.getRegissor().getFodselsdato());
+                            writer.newLine();
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            }
+        });
+
+        thread.start();
+        System.out.println(thread.getName());
+
 
     }
 
@@ -164,7 +170,7 @@ public class TvSerieCSVRepository implements TvSerieRepository {
         TS.updateEpisode(title,sesongNummer,episodeNummer,beskrivelse,spilletid,utgivelsesdato,bildeurl);
 
         //skriver dertetter til csv fil
-        writeToCSV(tvserieListe,"tvshows_10.csv");
+        writeToCSV(tvserieListe,"tester2.csv");
 
     }
 
@@ -178,7 +184,7 @@ public class TvSerieCSVRepository implements TvSerieRepository {
         TS.createEpisode(title,sesonNr,episodeNr,beskrivelse,spilletid,utgivelsesdato,bildeurl);
 
         //skriver til csv fil
-        writeToCSV(tvserieListe,"tvshows_10.csv");
+        writeToCSV(tvserieListe,"tester2.csv");
 
     }
 
@@ -188,14 +194,14 @@ public class TvSerieCSVRepository implements TvSerieRepository {
 
 
     @Override
-    public void deleteEpisode(String tvserie, int sesongNr, int episodeNr) {
-        TvSerie correctTVserie = hentTvSerie(tvserie);
+    public void deleteEpisode(String tvserie, int sesong, int episode) {
+        TvSerie serie = hentTvSerie(tvserie);
         //lage metoden i tvserie
-        correctTVserie.deleteEpisode(sesongNr,episodeNr);
+        serie.deleteEpisode(sesong,episode);
 
 
         //skriver til csv fil
-        writeToCSV(tvserieListe,"tvshows_10.csv");
+        writeToCSV(tvserieListe,"tester2.csv");
 
     }
 }

@@ -78,6 +78,7 @@ public class TvSerie implements Comparable<TvSerie>{
     }
 
 
+
     public void addEpisode(Episode episode) {
         int sesong = episode.getSesongNummer();
 
@@ -141,14 +142,18 @@ public class TvSerie implements Comparable<TvSerie>{
 
     public void deleteEpisode(int sesongNummer, int episodeNummer) {
         //går igjennom episoder
+        //kunn evt laget metodene i reposotorien for å kunne brukt dem her.
+        //derfor må jeg bruke denne koden for å hente iut sesongnummer og episodenummer.
         for (int i = 0; i < episoder.size(); i++) {
             //legger episodene til
             Episode episode = episoder.get(i);
 
+
             //sjekker om epsidode er lik sesongnummer og episode er lik epsode som blir gitt
             if (episode.getSesongNummer() == sesongNummer && episode.getEpisodeNummer() == episodeNummer) {
                 episoder.remove(i);
-                break; // exit loop after removing the episode
+
+                break;
             }
         }
     }
@@ -171,7 +176,7 @@ public class TvSerie implements Comparable<TvSerie>{
         //går igjennom lista med epsioder, tar ut den spesifike epsioden. Der sesongnummer OG epsiodenummer er lik input. så forandrer den verdien
         for(int i=0; i<episoder.size(); i++){
             Episode e = episoder.get(i);
-            if(episode.getSesongNummer() == sesongNummer && episode.getEpisodeNummer() == episodeNummer){
+            if(e.getSesongNummer() == sesongNummer && e.getEpisodeNummer() == episodeNummer){
                 episoder.set(i, episode);
                 break;
             }

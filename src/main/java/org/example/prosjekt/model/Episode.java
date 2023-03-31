@@ -41,6 +41,7 @@ public class Episode extends Produksjon implements Comparable<Episode>{
 
 
     public Episode() {
+
     }
 
     public Episode(String tittel, int episodeNr, int sesongNr, double spilleTid, LocalDate utgitt, String beskrivelse) {

@@ -59,6 +59,9 @@ public class TvSerieDataRepository implements TvSerieRepository{
     }
 
 
+
+
+
     public ArrayList<Episode> getEpisoderISesong(String tittel, int sesong) {
         return hentTvSerie(tittel).hentEpisoderISesong(sesong);
 

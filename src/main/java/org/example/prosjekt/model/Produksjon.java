@@ -1,7 +1,5 @@
 package org.example.prosjekt.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -56,7 +54,7 @@ public abstract class Produksjon {
         this.regissor = regissor;
     }
 
-    @JsonIgnore
+
     public ArrayList<Roller> getRoller() {
         return roller;
     }
